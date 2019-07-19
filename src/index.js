@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react'
+// import React, { useState, useEffect } from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom'
 import SeasonDisplay from './SeasonDisplay'
 import Loader from './Loader.js'
+import useLocation from './useLocation'
 
 // componentDidMount() {
 //   window.navigator.geolocation.getCurrentPosition(position => this.setState({
@@ -25,20 +27,12 @@ import Loader from './Loader.js'
 //   return <Loader />
 // }
 
-const App = () => {
-  const [lat, setLat] = useState(null)
-  const [error, setErr] = useState('')
-
-  useEffect(() => {
-    window.navigator.geolocation.getCurrentPosition(
-      position => setLat(position.coords.latitude),
-      err => setErr(err.message)
-    )
-  }, [])
+const App = ( ) => {
+  const [lat, err] = useLocation()
 
   let content;
-  if (error) {
-    content = <div> Error: {error} </div>
+  if (err) {
+    content = <div> Error: {err} </div>
   } else if (lat) {
     content = <SeasonDisplay lat={lat} />
   } else {
